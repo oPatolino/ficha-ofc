@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Habilidades</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 20px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        label {
+            display: block;
+            margin: 10px 0 5px;
+            font-size: 14px;
+        }
+
+        input[type="text"],
+        input[type="number"] {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            color: white;
+            background-color: #007bff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0;
+        }
+
+        ul li {
+            padding: 10px;
+            margin: 5px 0;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        ul li button {
+            padding: 5px 10px;
+            background-color: #dc3545;
+            border: none;
+            color: white;
+            font-size: 12px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        ul li button:hover {
+            background-color: #b02a37;
+        }
+
+        .back-button {
+            margin-top: 20px;
+            display: block;
+            text-align: center;
+            color: white;
+            background-color: #6c757d;
+            text-decoration: none;
+            padding: 10px;
+            border-radius: 4px;
+        }
+
+        .back-button:hover {
+            background-color: #5a6268;
+        }
+
+        .damage-result {
+            margin-left: 10px;
+            font-weight: bold;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Adicionar Habilidade</h1>
+
+        <label for="skill-name">Nome da Habilidade:</label>
+        <input type="text" id="skill-name" placeholder="Digite o nome da habilidade">
+
+        <label for="skill-cost">Custo (MP ou outro recurso):</label>
+        <input type="number" id="skill-cost" placeholder="Digite o custo da habilidade">
+
+        <label for="skill-dice">Tipo de Dado de Dano:</label>
+        <select id="skill-dice">
+            <option value="D4">D4</option>
+            <option value="D6">D6</option>
+            <option value="D8">D8</option>
+            <option value="D10">D10</option>
+            <option value="D12">D12</option>
+            <option value="D20">D20</option>
+            <option value="2D4">2D4</option>
+            <option value="2D6">2D6</option>
+            <option value="2D8">2D8</option>
+            <option value="2D10">2D10</option>
+            <option value="2D12">2D12</option>
+            <option value="2D20">2D20</option>
+        </select>
+
+        <label for="skill-effects">Efeitos:</label>
+        <input type="text" id="skill-effects" placeholder="Digite os efeitos da habilidade">
+
+        <label for="skill-range">Alcance:</label>
+        <input type="text" id="skill-range" placeholder="Digite o alcance da habilidade">
+
+        <button id="add-skill">Adicionar Habilidade</button>
+
+        <ul id="skill-list">
+            <!-- Habilidades serão inseridas aqui dinamicamente -->
+        </ul>
+
+        <a href="index.html" class="back-button">Voltar</a>
+    </div>
+
+    <script>
+        const addSkillButton = document.getElementById('add-skill');
+        const skillNameInput = document.getElementById('skill-name');
+        const skillCostInput = document.getElementById('skill-cost');
+        const skillDiceSelect = document.getElementById('skill-dice');
+        const skillEffectsInput = document.getElementById('skill-effects');
+        const skillRangeInput = document.getElementById('skill-range');
+        const skillList = document.getElementById('skill-list');
+
+        // Função para rolar dados
+        function rollDice(diceType) {
+            let numDice = 1;
+            let sides = 4;
+
+            if (diceType === "D6") {
+                sides = 6;
+            } else if (diceType === "D8") {
+                sides = 8;
+            } else if (diceType === "D10") {
+                sides = 10;
+            } else if (diceType === "D12") {
+                sides = 12;
+            } else if (diceType === "D20") {
+                sides = 20;
+            } else if (diceType.startsWith("2D")) {
+                numDice = 2;
+                sides = parseInt(diceType.charAt(2)); // Ex: "2D4" -> 4
+            }
+
+            let totalDamage = 0;
+            let rolls = [];
+            for (let i = 0; i < numDice; i++) {
+                let roll = Math.floor(Math.random() * sides) + 1;
+                rolls.push(roll);
+                totalDamage += roll;
+            }
+
+            return { totalDamage, rolls };
+        }
+
+        // Criar elemento de habilidade na lista
+        function createListItem(name, cost, diceType, effects, range) {
+            const li = document.createElement('li');
+
+            const nameSpan = document.createElement('span');
+            nameSpan.classList.add('skill-name');
+            nameSpan.textContent = `Nome: ${name}`;
+
+            const costSpan = document.createElement('span');
+            costSpan.classList.add('skill-cost');
+            costSpan.textContent = `Custo: ${cost}`;
+
+            const diceSpan = document.createElement('span');
+            diceSpan.classList.add('skill-dice');
+            diceSpan.textContent = `Dano: ${diceType}`;
+
+            const effectsSpan = document.createElement('span');
+            effectsSpan.classList.add('skill-effects');
+            effectsSpan.textContent = `Efeitos: ${effects}`;
+
+            const rangeSpan = document.createElement('span');
+            rangeSpan.classList.add('skill-range');
+            rangeSpan.textContent = `Alcance: ${range}`;
+
+            const damageResultSpan = document.createElement('span');
+            damageResultSpan.classList.add('damage-result');
+            damageResultSpan.textContent = 'Rolando...';
+
+            const rollButton = document.createElement('button');
+            rollButton.textContent = 'Gerar Dano';
+            rollButton.addEventListener('click', () => {
+                const { totalDamage, rolls } = rollDice(diceType);
+                damageResultSpan.textContent = `Rolado: ${rolls.join(", ")} (Total: ${totalDamage})`;
+            });
+
+            const removeButton = document.createElement('button');
+            removeButton.textContent = 'Remover';
+            removeButton.addEventListener('click', () => {
+                li.remove();
+                saveSkills();
+            });
+
+            li.appendChild(nameSpan);
+            li.appendChild(costSpan);
+            li.appendChild(diceSpan);
+            li.appendChild(effectsSpan);
+            li.appendChild(rangeSpan);
+            li.appendChild(damageResultSpan);
+            li.appendChild(rollButton);
+            li.appendChild(removeButton);
+            skillList.appendChild(li);
+        }
+
+        // Salvar habilidades no Local Storage
+        function saveSkills() {
+            const skills = Array.from(skillList.querySelectorAll('li')).map(li => {
+                const name = li.querySelector('.skill-name').textContent.replace('Nome: ', '');
+                const cost = li.querySelector('.skill-cost').textContent.replace('Custo: ', '');
+                const diceType = li.querySelector('.skill-dice').textContent.replace('Dano: ', '');
+                const effects = li.querySelector('.skill-effects').textContent.replace('Efeitos: ', '');
+                const range = li.querySelector('.skill-range').textContent.replace('Alcance: ', '');
+                return { name, cost, diceType, effects, range };
+            });
+            localStorage.setItem('skills', JSON.stringify(skills));
+        }
+
+        // Carregar habilidades do Local Storage
+        function loadSkills() {
+            const savedSkills = JSON.parse(localStorage.getItem('skills')) || [];
+            savedSkills.forEach(skill => {
+                createListItem(skill.name, skill.cost, skill.diceType, skill.effects, skill.range);
+            });
+        }
+
+        // Adicionar habilidade
+        addSkillButton.addEventListener('click', () => {
+            const name = skillNameInput.value.trim();
+            const cost = skillCostInput.value.trim();
+            const diceType = skillDiceSelect.value;
+            const effects = skillEffectsInput.value.trim();
+            const range = skillRangeInput.value.trim();
+
+            if (name && cost && diceType && effects && range) {
+                createListItem(name, cost, diceType, effects, range);
+                saveSkills();
+                
+                // Limpar os campos após adicionar
+                skillNameInput.value = '';
+                skillCostInput.value = '';
+                skillEffectsInput.value = '';
+                skillRangeInput.value = '';
+            } else {
+                alert('Por favor, preencha todos os campos.');
+            }
+        });
+
+        // Carregar habilidades quando a página for carregada
+        window.onload = loadSkills;
+    </script>
+</body>
+</html>

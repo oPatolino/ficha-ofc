@@ -1,0 +1,202 @@
+/* Estilo Geral */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f9;
+}
+
+.container {
+    padding: 20px;
+    max-width: 600px;
+    margin: auto;
+    background-color: #ffffff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+/* Barra de Navegação */
+.nav-bar {
+    background-color: #333;
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 0;
+    border-bottom: 2px solid #444;
+}
+
+.nav-bar button {
+    padding: 10px 15px;
+    border: none;
+    background-color: #555;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.nav-bar button:hover {
+    background-color: #777;
+}
+
+/* Cabeçalhos */
+h1, h2 {
+    text-align: center;
+    margin: 20px 0;
+    color: #333;
+}
+
+/* Seções de Informações */
+.info-section, .atributos, .recursos, .pericias-gerais, .pericias-combate {
+    margin-bottom: 20px;
+}
+
+label {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    font-size: 14px;
+    color: #333;
+}
+
+input[type="number"],
+input[type="text"] {
+    flex: 1;
+    margin-left: 10px;
+    padding: 5px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+/* Estilo para Agrupamento */
+div {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+/* Agrupamento de Campos */
+.atributos div, 
+.recursos div, 
+.pericias-gerais div, 
+.pericias-combate div {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    flex-wrap: nowrap;
+}
+
+.atributos div label, 
+.recursos div label, 
+.pericias-gerais div label, 
+.pericias-combate div label {
+    flex: 1;
+    min-width: 150px;
+}
+
+.atributos div input,
+.recursos div input,
+.pericias-gerais div input,
+.pericias-combate div input {
+    max-width: 80px;
+    text-align: center;
+}
+
+/* Estilo para Botões */
+button {
+    font-size: 14px;
+    padding: 8px 12px;
+    margin: 5px 0;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Estilo Responsivo */
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+
+    .nav-bar {
+        flex-wrap: wrap;
+    }
+
+    .nav-bar button {
+        flex: 1 1 45%;
+        margin: 5px;
+    }
+
+    label {
+        font-size: 12px;
+    }
+
+    input[type="number"],
+    input[type="text"] {
+        font-size: 12px;
+    }
+}
+.dice-section {
+    margin-top: 20px;
+    text-align: center;
+    padding: 20px;
+    background-color: #f4f4f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+.dice-section h2 {
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.dice-section label {
+    display: block;
+    margin: 10px 0 5px;
+    font-size: 14px;
+    color: #333;
+}
+
+.dice-section select,
+.dice-section input {
+    width: 100px;
+    margin: 5px 0 15px;
+    padding: 5px;
+    font-size: 14px;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.dice-section button {
+    font-size: 14px;
+    padding: 8px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.dice-section button:hover {
+    background-color: #0056b3;
+}
+
+#dice-results {
+    margin-top: 20px;
+    font-size: 14px;
+    color: #333;
+}
+
+#results {
+    font-weight: bold;
+    color: #007bff;
+}

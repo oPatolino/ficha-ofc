@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ficha de Personagem - God of Katanas</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Barra de Navegação -->
+    <div class="nav-bar">
+        <button onclick="irPara('katana.html')">Katana</button>
+        <button onclick="irPara('habilidades.html')">Habilidades</button>
+        <button onclick="irPara('talento.html')">Talentos</button>
+        <button onclick="irPara('mochila.html')">Mochila</button>
+        <button onclick="irPara('elemento.html')">Elemento</button>
+        <button onclick="salvarDados()">Salvar</button>
+        <button onclick="carregarDados()">Carregar</button>
+    </div>
+
+    <div class="container">
+        <h1>Ficha de Personagem</h1>
+        <div class="info-section">
+            <label>Nome: <input type="text" id="nome"></label>
+            <label>Raça: <input type="text" id="raca"></label>
+            <label>Origem: <input type="text" id="origem"></label>
+            <label>Dinheiro: <input type="text" id="dinheiro"></label>
+            <label>Nível: <input type="number" id="nivel"></label>
+            <label>XP: <input type="number" id="xp"></label>
+        </div>
+        
+        <h2>Atributos</h2>
+        <div class="atributos">
+            <div>
+                <label>Visão Base: <input type="number" id="visao"></label>
+                <label>DTA: <input type="number" id="visaoDTA" readonly></label>
+            </div>
+            <div>
+                <label>Audição Base: <input type="number" id="audicao"></label>
+                <label>DTA: <input type="number" id="audicaoDTA" readonly></label>
+            </div>
+            <div>
+                <label>Olfato Base: <input type="number" id="olfato"></label>
+                <label>DTA: <input type="number" id="olfatoDTA" readonly></label>
+            </div>
+            <div>
+                <label>Fala Base: <input type="number" id="fala"></label>
+                <label>DTA: <input type="number" id="falaDTA" readonly></label>
+            </div>
+            <div>
+                <label>Tato Base: <input type="number" id="tato"></label>
+                <label>DTA: <input type="number" id="tatoDTA" readonly></label>
+            </div>
+            <div>
+                <label>SG: <input type="number" id="sg" readonly></label>
+                <label>DTA: <input type="number" id="sgDTA" readonly></label>
+            </div>
+        </div>
+        
+        <h2>Status</h2>
+        <div class="recursos">
+            <div>
+                <label>Vida Atual: <input type="number" id="vidaAtual"></label>
+                <label>Vida Máxima: <input type="number" id="vidaMaxima" readonly></label>
+                <label>Bônus: <input type="number" id="vidaBonus"></label>
+            </div>
+            <div>
+                <label>Éter Atual: <input type="number" id="eterAtual"></label>
+                <label>Éter Máximo: <input type="number" id="eterMaximo" readonly></label>
+                <label>Bônus: <input type="number" id="eterBonus"></label>
+            </div>
+            <div>
+                <label>Estamina Atual: <input type="number" id="estaminaAtual"></label>
+                <label>Estamina Máxima: <input type="number" id="estaminaMaxima" readonly></label>
+                <label>Bônus: <input type="number" id="estaminaBonus"></label>
+            </div>
+        </div>
+        
+        <h2>Perícias Gerais</h2>
+        <div class="pericias-gerais">
+            <div>
+                <label>Força Base: <input type="number" id="forca"></label>
+                <label>B.E.: <input type="number" id="forcaBE"></label>
+            </div>
+            <div>
+                <label>Intelecto Base: <input type="number" id="intelecto"></label>
+                <label>B.E.: <input type="number" id="intelectoBE"></label>
+            </div>
+            <div>
+                <label>Agilidade Base: <input type="number" id="agilidade"></label>
+                <label>B.E.: <input type="number" id="agilidadeBE"></label>
+            </div>
+        </div>
+
+        <h2>Perícias de Combate</h2>
+        <div class="pericias-combate">
+            <div>
+                <label>E.F. Base: <input type="number" id="eficienciaFisica"></label>
+                <label>B.E.: <input type="number" id="eficienciaFisicaBE"></label>
+            </div>
+            <div>
+                <label>R.F. Base: <input type="number" id="resistenciaFisica"></label>
+                <label>B.E.: <input type="number" id="resistenciaFisicaBE"></label>
+            </div>
+            <div>
+                <label>E.M. Base: <input type="number" id="eficienciaMagica"></label>
+                <label>B.E.: <input type="number" id="eficienciaMagicaBE"></label>
+            </div>
+            <div>
+                <label>R.M. Base: <input type="number" id="resistenciaMagica"></label>
+                <label>B.E.: <input type="number" id="resistenciaMagicaBE"></label>
+            </div>
+            <div>
+                <label>Vel. Base: <input type="number" id="velocidade"></label>
+                <label>B.E.: <input type="number" id="velocidadeBE"></label>
+            </div>
+        </div>
+    </div>
+    <div class="dice-section">
+    <h2>Rolar Dados</h2>
+    <label for="dice-type">Escolha o dado:</label>
+    <select id="dice-type">
+        <option value="4">D4</option>
+        <option value="6">D6</option>
+        <option value="8">D8</option>
+        <option value="10">D10</option>
+        <option value="12">D12</option>
+        <option value="20">D20</option>
+    </select>
+
+    <label for="dice-quantity">Quantidade de dados:</label>
+    <input type="number" id="dice-quantity" min="1" value="1">
+
+    <button id="roll-dice">Rolar Dados</button>
+
+    <div id="dice-results">
+        <h3>Resultados:</h3>
+        <p id="results"></p>
+    </div>
+</div>
+    <script src="script.js"></script>
+</body>
+</html>

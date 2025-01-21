@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mochila</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 20px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        label {
+            display: block;
+            margin: 10px 0 5px;
+            font-size: 14px;
+        }
+
+        input[type="text"],
+        input[type="number"] {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            color: white;
+            background-color: #007bff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0;
+        }
+
+        ul li {
+            padding: 10px;
+            margin: 5px 0;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        ul li span {
+            margin-bottom: 5px;
+        }
+
+        ul li button {
+            padding: 5px 10px;
+            background-color: #dc3545;
+            border: none;
+            color: white;
+            font-size: 12px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        ul li button:hover {
+            background-color: #b02a37;
+        }
+
+        .quantity-buttons button {
+            padding: 5px 10px;
+            background-color: #28a745;
+            border: none;
+            color: white;
+            font-size: 12px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .quantity-buttons button:hover {
+            background-color: #218838;
+        }
+
+        .back-button {
+            margin-top: 20px;
+            display: block;
+            text-align: center;
+            color: white;
+            background-color: #6c757d;
+            text-decoration: none;
+            padding: 10px;
+            border-radius: 4px;
+        }
+
+        .back-button:hover {
+            background-color: #5a6268;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Mochila</h1>
+        <label for="item-name">Nome do Item:</label>
+        <input type="text" id="item-name" placeholder="Digite o nome do item">
+
+        <label for="item-description">Descrição Breve:</label>
+        <input type="text" id="item-description" placeholder="Digite uma breve descrição do item">
+
+        <label for="item-quantity">Quantidade:</label>
+        <input type="number" id="item-quantity" min="1" placeholder="Digite a quantidade">
+
+        <button id="add-item">Adicionar Item</button>
+
+        <ul id="item-list">
+            <!-- Itens serão inseridos aqui dinamicamente -->
+        </ul>
+
+        <a href="index.html" class="back-button">Voltar</a>
+    </div>
+
+    <script>
+        const addItemButton = document.getElementById('add-item');
+        const itemNameInput = document.getElementById('item-name');
+        const itemDescriptionInput = document.getElementById('item-description');
+        const itemQuantityInput = document.getElementById('item-quantity');
+        const itemList = document.getElementById('item-list');
+
+        // Carregar itens do Local Storage ao iniciar
+        function loadItems() {
+            const items = JSON.parse(localStorage.getItem('mochila')) || [];
+            items.forEach(item => createListItem(item.name, item.description, item.quantity));
+        }
+
+        // Salvar itens no Local Storage
+        function saveItems() {
+            const items = Array.from(itemList.querySelectorAll('li')).map(li => {
+                const name = li.querySelector('.item-name').textContent;
+                const description = li.querySelector('.item-description').textContent;
+                const quantity = li.querySelector('.item-quantity').textContent.replace('Quantidade: ', '');
+                return { name, description, quantity };
+            });
+            localStorage.setItem('mochila', JSON.stringify(items));
+        }
+
+        // Criar elemento de item na lista
+        function createListItem(name, description, quantity) {
+            const li = document.createElement('li');
+
+            const nameSpan = document.createElement('span');
+            nameSpan.classList.add('item-name');
+            nameSpan.textContent = `Nome: ${name}`;
+
+            const descriptionSpan = document.createElement('span');
+            descriptionSpan.classList.add('item-description');
+            descriptionSpan.textContent = `Descrição: ${description}`;
+
+            const quantitySpan = document.createElement('span');
+            quantitySpan.classList.add('item-quantity');
+            quantitySpan.textContent = `Quantidade: ${quantity}`;
+
+            const removeButton = document.createElement('button');
+            removeButton.textContent = 'Remover';
+            removeButton.addEventListener('click', () => {
+                li.remove();
+                saveItems();
+            });
+
+            const decreaseQuantityButton = document.createElement('button');
+            decreaseQuantityButton.textContent = '-1';
+            decreaseQuantityButton.addEventListener('click', () => {
+                let quantityValue = parseInt(quantitySpan.textContent.replace('Quantidade: ', ''));
+                if (quantityValue > 1) {
+                    quantityValue -= 1;
+                    quantitySpan.textContent = `Quantidade: ${quantityValue}`;
+                    saveItems();
+                } else {
+                    li.remove();
+                    saveItems();
+                }
+            });
+
+            const increaseQuantityButton = document.createElement('button');
+            increaseQuantityButton.textContent = '+1';
+            increaseQuantityButton.addEventListener('click', () => {
+                let quantityValue = parseInt(quantitySpan.textContent.replace('Quantidade: ', ''));
+                quantityValue += 1;
+                quantitySpan.textContent = `Quantidade: ${quantityValue}`;
+                saveItems();
+            });
+
+            const quantityButtonsDiv = document.createElement('div');
+            quantityButtonsDiv.classList.add('quantity-buttons');
+            quantityButtonsDiv.appendChild(decreaseQuantityButton);
+            quantityButtonsDiv.appendChild(increaseQuantityButton);
+
+            li.appendChild(nameSpan);
+            li.appendChild(descriptionSpan);
+            li.appendChild(quantitySpan);
+            li.appendChild(quantityButtonsDiv);
+            li.appendChild(removeButton);
+            itemList.appendChild(li);
+        }
+
+        // Adicionar item
+        addItemButton.addEventListener('click', () => {
+            const name = itemNameInput.value.trim();
+            const description = itemDescriptionInput.value.trim();
+            const quantity = itemQuantityInput.value.trim();
+
+            if (name && description && quantity && quantity > 0) {
+                createListItem(name, description, quantity);
+                saveItems();
+                itemNameInput.value = '';
+                itemDescriptionInput.value = '';
+                itemQuantityInput.value = '';
+            } else {
+                alert('Por favor, preencha todos os campos corretamente.');
+            }
+        });
+
+        // Carregar itens ao iniciar
+        loadItems();
+    </script>
+</body>
+</html>
