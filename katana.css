@@ -1,0 +1,148 @@
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Estilo do corpo */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f0f4f8;
+    color: #333;
+    line-height: 1.6;
+    padding: 20px;
+}
+
+/* Estilo do container principal */
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilo do título */
+h1 {
+    text-align: center;
+    color: #4a90e2;
+    margin-bottom: 20px;
+}
+
+/* Estilo das Katanas */
+.katana {
+    margin-bottom: 20px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.katana-info {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Nome da Katana */
+.katana-name {
+    font-size: 18px;
+    font-weight: bold;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+}
+
+/* Detalhes das Katanas */
+.katana-details {
+    display: flex;
+    gap: 15px;
+}
+
+.katana-details select {
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Propriedades */
+ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+ul li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+select, input[type="number"] {
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: auto;
+}
+
+/* Botões */
+button {
+    background-color: #4a90e2;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #357abd;
+}
+
+.gerar-ataque {
+    background-color: #50b848;
+    color: white;
+}
+
+.gerar-ataque:hover {
+    background-color: #3b8b35;
+}
+
+/* Botão Voltar */
+.back-button-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.back-button {
+    background-color: #f56c6c;
+    color: white;
+}
+
+.back-button:hover {
+    background-color: #d94a4a;
+}
+
+/* Responsividade */
+@media screen and (max-width: 600px) {
+    .katana-details {
+        flex-direction: column;
+    }
+
+    ul li {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
